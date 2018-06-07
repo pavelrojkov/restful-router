@@ -6,19 +6,20 @@ use Exception;
 
 class Route
 {
-    const METHOD_GET     = 'GET';
-    const METHOD_POST    = 'POST';
-    const METHOD_PUT     = 'PUT';
-    const METHOD_PATCH   = 'PATCH';
-    const METHOD_DELETE  = 'DELETE';
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_PATCH = 'PATCH';
+    const METHOD_DELETE = 'DELETE';
 
-     /**
+    /**
      * @param $path
      *
      * @throws Exception
      */
-    public static function resource ($path) {
-        if ( empty($path)) {
+    public static function resource($path)
+    {
+        if (empty($path)) {
             throw new Exception('Missing router path');
         }
 
@@ -46,20 +47,20 @@ class Route
         }
 
         $request = explode('/', $requestUri);
-        array_shift ($request);
-        $params =[];
+        array_shift($request);
+        $params = [];
         while (count($request)) {
-            if(count($request) >= 2) {
-                list($key,$value) = array_splice($request, 0, 2);
+            if (count($request) >= 2) {
+                list($key, $value) = array_splice($request, 0, 2);
                 $params[$key] = $value;
             } else {
                 $params[$request[0]] = '';
-                array_shift ($request);
+                array_shift($request);
             }
         }
         return $params;
     }
-    
+
     /**
      * @param $params
      *
@@ -74,7 +75,7 @@ class Route
         ) ? $_method : $_SERVER['REQUEST_METHOD'];
 
         //build class and method to call
-        $class = '\src\app\controllers\\'.implode('',array_keys($params)) . 'Controller';
+        $class = '\src\app\controllers\\'.implode('', array_keys($params)).'Controller';
         if (class_exists($class)) {
             $instance = new $class;
 
@@ -86,7 +87,7 @@ class Route
                 call_user_func_array(array($instance, $requestMethod), [$params]);
             }
         } else {
-            throw new Exception('Missing controller class ' . $class);
+            throw new Exception('Missing controller class '.$class);
         }
     }
 }
