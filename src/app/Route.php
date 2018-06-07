@@ -12,26 +12,11 @@ class Route
     const METHOD_PATCH   = 'PATCH';
     const METHOD_DELETE  = 'DELETE';
 
-    /**
-     * Request method
-     * @var string
+     /**
+     * @param $path
+     *
+     * @throws Exception
      */
-    private $method;
-
-    /**
-     * Array containing parameters passed through request URL
-     * @var array
-     */
-    private $parameters = array();
-
-    /**
-     * @param $params
-     */
-    public function __construct($params)
-    {
-        $this->parameters = $params;
-    }
-
     public static function resource ($path) {
         if ( empty($path)) {
             throw new Exception('Missing router path');
@@ -74,7 +59,12 @@ class Route
         }
         return $params;
     }
-
+    
+    /**
+     * @param $params
+     *
+     * @throws Exception
+     */
     public static function dispatch($params)
     {
         $requestMethod = (
