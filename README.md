@@ -1,1 +1,3 @@
-# restful-router
+# RESTful router class for PHP
+
+
